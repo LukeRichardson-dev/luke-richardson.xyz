@@ -1,15 +1,35 @@
 use openssl::pkey::Private;
-use openssl::ssl::{SslConnector, SslMethod, SslSession, Ssl};
 use openssl::rsa::*;
 use openssl::dh::Dh;
 use openssl::base64::encode_block;
+use shared::SharedBuilder;
+
+pub mod identity;
+pub mod shared;
 
 fn main() {
+
+    let alice = Dh::get_2048_256().unwrap()
+        .generate_key().unwrap();
+    let bob = Dh::get_2048_256().unwrap()
+        .generate_key().unwrap();
+
     
-    diffie();
+    let mut shared = SharedBuilder::new(alice.public_key().to_owned().unwrap())
+        .generate_secret(bob.private_key()).unwrap()
+        .build();
+
+    let data = b"hello world";
+    println!("{:?}", data);
+
+    match shared.encrypt(data.to_vec()) {
+        Ok(enc) => println!("{:?}", shared.decrypt(enc).unwrap()),
+        Err(err) => println!("{:?}", err),
+    }
 
 }
 
+#[allow(unused)]
 fn rsa_test() {
     let rsa: Rsa<Private> = Rsa::generate(2048).unwrap();
     rsa.public_key_to_pem().unwrap();
