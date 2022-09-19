@@ -1,18 +1,12 @@
 [package]
-name = "encryption"
+name = "protocol"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[lib]
-name = "encryption"
-path = "src/lib.rs"
-
-[[bin]]
-name = "encryption_main"
-path = "src/main.rs"
-
 [dependencies]
-serde = { version = "1.0.144", features = ["derive"] }
+encryption = { path = "../encryption" }
 openssl = { version = "0.10", features = ["vendored"] }
+serde = { version = "1.0.144", features = ["derive"] }
+

@@ -13,7 +13,6 @@ fn main() {
         .generate_key().unwrap();
     let bob = Dh::get_2048_256().unwrap()
         .generate_key().unwrap();
-
     
     let mut shared = SharedBuilder::new(alice.public_key().to_owned().unwrap())
         .generate_secret(bob.private_key()).unwrap()
@@ -23,7 +22,11 @@ fn main() {
     println!("{:?}", data);
 
     match shared.encrypt(data.to_vec()) {
-        Ok(enc) => println!("{:?}", shared.decrypt(enc).unwrap()),
+        Ok(enc) => println!(
+            "{:?}\n{:?}", 
+            enc.clone(),
+            String::from_utf8(shared.decrypt(enc).unwrap()).unwrap()
+        ),
         Err(err) => println!("{:?}", err),
     }
 

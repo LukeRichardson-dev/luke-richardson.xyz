@@ -2,5 +2,5 @@
 
 members = [
     "encryption",
-    "messages"
+    "protocol"
 ]
