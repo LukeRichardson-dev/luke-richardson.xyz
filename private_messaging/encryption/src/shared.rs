@@ -1,12 +1,14 @@
 use std::convert::TryInto;
 
 use openssl::{
-    aes::{aes_ige, AesKey},
     bn::{BigNum, BigNumRef},
     dh::Dh,
     rand::rand_bytes,
-    symm::{Mode, Cipher, decrypt, encrypt},
+    symm::{Cipher, decrypt, encrypt},
 };
+
+pub static NO_SECRET_KEY: &'static str = "Secret key has not yet been generated";
+
 pub struct Shared {
     pub_key: BigNum,
     iv: [u8; 16],
@@ -57,6 +59,7 @@ pub struct SharedBuilder {
     _shared_secret: Option<Vec<u8>>,
 }
 
+
 impl SharedBuilder {
     pub fn new(pub_key: BigNum) -> Self {
         Self {
@@ -80,7 +83,7 @@ impl SharedBuilder {
     pub fn build(&self) -> Shared {
         Shared::new(
             self.pub_key.to_owned().unwrap(),
-            self._shared_secret.as_ref().unwrap().to_vec(),
+            self._shared_secret.as_ref().expect(NO_SECRET_KEY).to_vec(),
         )
     }
 }
