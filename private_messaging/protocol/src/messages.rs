@@ -1,8 +1,8 @@
-use crate::account::{ID};
-use encryption::account::{ImplicitAccount, AmbiguousAccount};
+use encryption::account::{ImplicitAccount, AmbiguousAccount, ID};
 use openssl::{sign::Verifier, hash::MessageDigest};
 use openssl::pkey::{PKey, Public};
 
+#[derive(Debug, Clone)]
 pub struct OutgoingMessage {
 
     pub user: ImplicitAccount,
