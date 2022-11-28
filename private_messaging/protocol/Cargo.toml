@@ -8,5 +8,6 @@ edition = "2021"
 [dependencies]
 encryption = { path = "../encryption" }
 openssl = { version = "0.10", features = ["vendored"] }
+ring = "0.16.20"
 serde = { version = "1.0.144", features = ["derive"] }
 

@@ -5,7 +5,7 @@ use encryption::{
     account::{ImplicitAccount, AmbiguousAccount}
 };
 use messages::{OutgoingMessage, IncomingMessage};
-use openssl::{rsa::Rsa, pkey::PKey};
+use openssl::{rsa::Rsa, pkey::PKey, ec::EcKey, nid::Nid, dh::Dh};
 
 mod chat;
 mod messages;
@@ -15,10 +15,11 @@ fn main() {
     let message = "hello world".to_owned();
 
     let u1rsa = Rsa::generate(2048).unwrap();
+    let u1dh = Dh::get_2048_256().unwrap().generate_key().unwrap();
     let user1 = ImplicitAccount {
         id: "user1".to_owned(),
-        private_key: PKey::private_key_from_der(&u1rsa.private_key_to_der().unwrap()).unwrap(),
-        public_key: PKey::public_key_from_der(&u1rsa.public_key_to_der().unwrap()).unwrap(),
+        private_key: PKey::from_dh(u1dh).unwrap(),
+        public_key: PKey::from_dh(u1dh).unwrap(),
         info: vec![],
     };
 
@@ -55,7 +56,7 @@ fn main() {
 
     let mut pool = ChatPool::new(user1);
 
-    let mut chat = pool.get_chat(fuser2).to_owned();
+    let chat = pool.get_chat(fuser2).to_owned();
     chat.borrow_mut().send_message(message.clone());
     chat.borrow_mut().send_message(message.clone());
     chat.borrow_mut().send_message(message.clone());

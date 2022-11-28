@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "homepage"
+		},
+		{
+			"path": "private_messaging"
+		},
+		{
+			"path": "idms"
+		}
+	],
+	"settings": {
+		"python.languageServer": "Pylance",
+		"python.linting.pylintEnabled": false,
+		"python.analysis.diagnosticSeverityOverrides": {
+			"reportMissingModuleSource": "none"
+		},
+		"python.analysis.extraPaths": [
+			"",
+			"c:\\Users\\richa\\.vscode\\extensions\\joedevivo.vscode-circuitpython-0.1.19-win32-x64\\stubs",
+			"c:\\Users\\richa\\AppData\\Roaming\\Code\\User\\globalStorage\\joedevivo.vscode-circuitpython\\bundle\\20220914\\adafruit-circuitpython-bundle-py-20220914\\lib"
+		],
+		"circuitpython.board.version": null
+	}
+}
